@@ -39,7 +39,12 @@ app.get('/search', async (req, res) => {
     return
   }
   try {
-    const entityList = await Restaurant.find({ name: RegExp(keyword, 'i') }).lean()
+    const resultByName = await Restaurant.find({ name: RegExp(keyword, 'i') }).lean()
+    const resultByCategory = await Restaurant.find({ category: RegExp(keyword, 'i') }).lean()
+    const entityList = [...resultByName, ...resultByCategory].filter((entity, index, result) => {
+      const firstIndex = result.findIndex(x => x._id.toString() === entity._id.toString())
+      return firstIndex === index
+    })
     const isNoResult = entityList.length === 0
     
     res.render('index', { entityList, keyword, isNoResult })
