@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 const isImageURL = require('image-url-validator').default
 const Restaurant = require('./models/restaurant.js')
 
-mongoose.connect('mongodb://localhost:27017/restaurant_list')
+mongoose.connect('mongodb://localhost:27017/restaurant-list')
 const app = express()
 const db = mongoose.connection
 const port = 3000
